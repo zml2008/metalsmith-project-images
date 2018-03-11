@@ -7,6 +7,7 @@ var _ = require('lodash'),
     images = require('../src/index.js'),
     normalizeOptions = images.normalizeOptions,
     getMatchingFiles = images.getMatchingFiles,
+    getFilesInImageDirectory = images.getMatchingImages,
     isAuthorizedFile = images.isAuthorizedFile;
 
 function getFilesWithImages(files, imagesKey) {
@@ -45,6 +46,38 @@ describe('Metalsmith-images', function() {
           'projects/try.md'
         ]);
       })
+    });
+
+    describe('#getFilesInImageDirectory()', function () {
+      it('should return matching image files', () => {
+        var files = {
+          'projects/one.md': {},
+          'projects/images/one.jpeg': {},
+          'projects/images/two.jpg': {},
+          'projects/images/folder/three.jpg': {},
+        };
+
+        var matchingImages = getFilesInImageDirectory(files, 'projects/one.md', 'images');
+        assert.sameMembers(matchingImages, [
+          'projects/images/one.jpeg',
+          'projects/images/two.jpg'
+        ]);
+      });
+
+      it('should return matching files in same directory', () => {
+        var files = {
+          'projects/one.md': {},
+          'projects/one.jpeg': {},
+          'projects/two.jpg': {},
+        };
+
+        var matchingImages = getFilesInImageDirectory(files, 'projects/one.md', '.');
+        assert.sameMembers(matchingImages, [
+          'projects/one.md',
+          'projects/one.jpeg',
+          'projects/two.jpg'
+        ]);
+      });
     });
 
     describe('#normalizeOptions()', function() {

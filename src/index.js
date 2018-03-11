@@ -12,6 +12,7 @@ module.exports = plugin;
 module.exports.isAuthorizedFile = isAuthorizedFile;
 module.exports.normalizeOptions = normalizeOptions;
 module.exports.getMatchingFiles = getMatchingFiles;
+module.exports.getMatchingImages = getFilesInImageDirectory;
 
 /**
  *
@@ -51,20 +52,15 @@ function addImagesToFiles(files, metalsmith, done, options) {
   _.each(matchingFiles, function(file) {
     if (_.isUndefined(files[file])) return true;
 
-    var imagesPath = path.join(metalsmith.source(), path.dirname(file), options.imagesDirectory);
-    var exist = fs.existsSync(imagesPath);
-    // no access, skip the path
-    if (!exist) return;
-
-    var dirFiles = fs.readdirSync(imagesPath);
+    var dirFiles = getFilesInImageDirectory(files, file, options.imagesDirectory);
+    if (dirFiles.length === 0) return;
     files[file][options.imagesKey] = files[file][options.imagesKey] || [];
 
     // add files as images metadata
     _.each(dirFiles, function(dirFile) {
       // check extension and remove thumbnails
       if (isAuthorizedFile(dirFile, options.authorizedExts)) {
-        var imagePath = path.join(files[file].path.dir, options.imagesDirectory, dirFile);
-        files[file][options.imagesKey].push(imagePath);
+        files[file][options.imagesKey].push(dirFile);
       }
     });
 
@@ -114,9 +110,22 @@ function getMatchingFiles(files, pattern) {
   var keys = Object.keys(files);
 
   return _.filter(keys, function(file) {
-    files[file].path = path.parse(file);
-
     // check if file is in the right path using regexp
     return matcher(file, pattern);
   });
+}
+
+/**
+ * Get all files in the image directory for the matched file
+ * @param files
+ * @param {string} matchedFile
+ * @param {string} imagesDirectory
+ * @returns {Array<string>}
+ */
+function getFilesInImageDirectory(files, matchedFile, imagesDirectory) {
+  let imageDir = path.join(path.dirname(matchedFile), imagesDirectory);
+  var filePaths = Object.keys(files);
+  return _.filter(filePaths, function (filePath) {
+    return path.dirname(filePath) === imageDir
+  }).sort();
 }
