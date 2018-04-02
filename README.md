@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/metalsmith-project-images.svg)](https://badge.fury.io/js/metalsmith-project-images)
 [![Build Status](https://travis-ci.org/hoetmaaiers/metalsmith-project-images.svg?branch=master)](https://travis-ci.org/hoetmaaiers/metalsmith-project-images)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FGosha%2Fmetalsmith-project-images.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FGosha%2Fmetalsmith-project-images?ref=badge_shield)
 
 A metalsmith plugin that can scan all images in subfolders and add it to a files metadata.
 
@@ -134,3 +135,6 @@ Note:
 
 ## License
 MIT
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FGosha%2Fmetalsmith-project-images.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FGosha%2Fmetalsmith-project-images?ref=badge_large)
