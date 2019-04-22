@@ -40,11 +40,7 @@ describe('Metalsmith-images', function() {
         };
 
         var matchingFiles = getMatchingFiles(files, '**/*.md');
-        assert.sameMembers(matchingFiles, [
-          'projects/one.md',
-          'projects/two.md',
-          'projects/try.md'
-        ]);
+        assert.sameMembers(matchingFiles, Object.values(files));
       })
     });
 
@@ -59,8 +55,8 @@ describe('Metalsmith-images', function() {
 
         var matchingImages = getFilesInImageDirectory(files, 'projects/one.md', 'images');
         assert.sameMembers(matchingImages, [
-          'projects/images/one.jpeg',
-          'projects/images/two.jpg'
+          files['projects/images/one.jpeg'],
+          files['projects/images/two.jpg']
         ]);
       });
 
@@ -72,11 +68,7 @@ describe('Metalsmith-images', function() {
         };
 
         var matchingImages = getFilesInImageDirectory(files, 'projects/one.md', '.');
-        assert.sameMembers(matchingImages, [
-          'projects/one.md',
-          'projects/one.jpeg',
-          'projects/two.jpg'
-        ]);
+        assert.sameMembers(matchingImages, Object.values(files));
       });
     });
 

@@ -60,7 +60,7 @@ function addImagesToFiles(files, metalsmith, done, options) {
     _.each(dirFiles, function(dirFile) {
       // check extension and remove thumbnails
       if (isAuthorizedFile(dirFile, options.authorizedExts)) {
-        files[file][options.imagesKey].push(dirFile);
+        files[file][options.imagesKey].push(files[dirFile]);
       }
     });
 
